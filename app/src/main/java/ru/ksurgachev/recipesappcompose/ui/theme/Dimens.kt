@@ -4,11 +4,13 @@ import androidx.compose.ui.unit.dp
 
 object Dimens {
     // Отступы
-    val paddingXSmall = 4.dp
-    val paddingSmall = 8.dp
-    val paddingMedium = 16.dp
+    val paddingSmallest = 2.dp
+    val paddingSmall = 4.dp
+    val paddingMedium = 8.dp
+    val paddingMediumLarge = 12.dp
+    val paddingMain = 16.dp
     val paddingLarge = 24.dp
-    val paddingXLarge = 32.dp
+    val paddingLargest = 32.dp
 
     // Высоты элементов
     val buttonHeight = 48.dp
