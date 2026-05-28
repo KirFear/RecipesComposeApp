@@ -3,6 +3,7 @@ package ru.ksurgachev.recipesappcompose.ui.navigation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -21,12 +22,14 @@ fun BottomNavigation(
 ) {
     Row(
         modifier = Modifier
+            .navigationBarsPadding()
             .fillMaxWidth()
             .padding(horizontal = Dimens.paddingMain),
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.spacedBy(Dimens.paddingMain)
     ) {
         Button(
             onClick = onCategoriesClick,
+            modifier = Modifier.weight(1f),
             shape = RoundedCornerShape(Dimens.buttonCornerRadius),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.tertiary,
@@ -40,6 +43,7 @@ fun BottomNavigation(
         }
         Button(
             onClick = onFavoriteClick,
+            modifier = Modifier.weight(1f),
             shape = RoundedCornerShape(Dimens.buttonCornerRadius),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.error,
