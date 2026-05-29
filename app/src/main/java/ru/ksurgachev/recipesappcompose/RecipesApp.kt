@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import ru.ksurgachev.recipesappcompose.ui.categories.CategoriesScreen
 import ru.ksurgachev.recipesappcompose.ui.navigation.BottomNavigation
 import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 import ru.ksurgachev.recipesappcompose.ui.theme.RecipesAppComposeTheme
@@ -49,30 +50,6 @@ fun RecipesApp() {
 @Composable
 fun RecipesAppPreview() {
     RecipesApp()
-}
-
-@Composable
-fun CategoriesScreen(paddingValues: PaddingValues) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(Dimens.cardHeight)
-                .padding(Dimens.paddingSmall),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Категории",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .padding(Dimens.paddingMedium)
-            )
-        }
-    }
 }
 
 @Composable
