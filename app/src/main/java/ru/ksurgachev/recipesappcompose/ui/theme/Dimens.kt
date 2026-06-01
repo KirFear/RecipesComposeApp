@@ -15,6 +15,7 @@ object Dimens {
     // Высоты элементов
     val buttonHeight = 48.dp
     val cardHeight = 200.dp
+    val headerHeight = 224.dp
     val screenMinHeight = 500.dp
 
     // Размеры иконок

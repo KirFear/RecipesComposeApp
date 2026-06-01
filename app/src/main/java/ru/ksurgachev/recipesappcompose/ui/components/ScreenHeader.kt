@@ -1,0 +1,50 @@
+package ru.ksurgachev.recipesappcompose.ui.components
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
+import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
+
+@Composable
+fun ScreenHeader(
+    imagePainter: Painter,
+    contentDescription: String,
+    title: String
+) {
+    Box(
+        Modifier.height(Dimens.headerHeight)
+    ) {
+        Image(
+            painter = imagePainter,
+            contentDescription = contentDescription,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+
+        Surface(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(Dimens.paddingMain),
+            shape = RoundedCornerShape(Dimens.buttonCornerRadius)
+        ) {
+            Text(
+                text = title,
+                modifier = Modifier
+                    .padding(Dimens.paddingMedium),
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.titleMedium
+            )
+        }
+    }
+}
