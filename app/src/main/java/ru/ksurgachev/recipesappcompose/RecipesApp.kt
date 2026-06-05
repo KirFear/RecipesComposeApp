@@ -18,7 +18,7 @@ import ru.ksurgachev.recipesappcompose.ui.theme.RecipesAppComposeTheme
 @Composable
 fun RecipesApp() {
     RecipesAppComposeTheme {
-        var currentScreen by remember { mutableStateOf(ScreenId.RECIPES) }
+        var currentScreen by remember { mutableStateOf(ScreenId.CATEGORIES) }
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
