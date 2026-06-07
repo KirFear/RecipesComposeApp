@@ -9,7 +9,7 @@ import ru.ksurgachev.recipesappcompose.data.model.RecipeDto
 data class RecipeUiModel(
     val id: Long,
     val title: String,
-    val ingredients: List<IngredientDto>,
+    val ingredients: List<IngredientUiModel>,
     val method: List<String>,
     val imageUrl: String,
     val isFavorite: Boolean
@@ -18,7 +18,7 @@ data class RecipeUiModel(
 fun RecipeDto.toUiModel() = RecipeUiModel(
     id = id,
     title = title,
-    ingredients = ingredients,
+    ingredients = ingredients.map { it.toUiModel() },
     method = method,
     imageUrl = if (imageUrl.startsWith("http")) imageUrl else Constants.ASSETS_URI_PREFIX + imageUrl,
     isFavorite = false
