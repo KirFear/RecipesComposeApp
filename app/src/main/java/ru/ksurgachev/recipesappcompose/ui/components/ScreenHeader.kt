@@ -1,6 +1,5 @@
 package ru.ksurgachev.recipesappcompose.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -12,24 +11,28 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import coil3.compose.AsyncImage
+import ru.ksurgachev.recipe_app_compose.R
 import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 
 @Composable
 fun ScreenHeader(
-    imagePainter: Painter,
+    imageUrl: String,
     contentDescription: String,
     title: String
 ) {
     Box(
         Modifier.height(Dimens.headerHeight)
     ) {
-        Image(
-            painter = imagePainter,
+        AsyncImage(
+            model = imageUrl,
             contentDescription = contentDescription,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            placeholder = painterResource(id = R.drawable.img_placeholder),
+            error = painterResource(id = R.drawable.img_error)
         )
 
         Surface(

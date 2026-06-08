@@ -1,11 +1,8 @@
-package ru.ksurgachev.recipesappcompose.ui.categories
+package ru.ksurgachev.recipesappcompose.ui.recipes
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -19,19 +16,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import coil3.compose.AsyncImage
 import ru.ksurgachev.recipe_app_compose.R
-import ru.ksurgachev.recipesappcompose.ui.categories.model.CategoryUiModel
+import ru.ksurgachev.recipesappcompose.ui.recipes.model.RecipeUiModel
 import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 
 @Composable
-fun CategoryItem(
-    category: CategoryUiModel,
-    onClick: (Int, String, String) -> Unit,
+fun RecipeItem(
+    recipe: RecipeUiModel,
+    onRecipeClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick(category.id, category.title, category.imageUrl) },
+            .clickable { onRecipeClick(recipe.id) },
         shape = RoundedCornerShape(Dimens.buttonCornerRadius),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
@@ -41,33 +38,20 @@ fun CategoryItem(
     ) {
         Column {
             AsyncImage(
-                model = category.imageUrl,
-                contentDescription = category.description,
-                modifier = Modifier
-                    .aspectRatio(1.2f),
+                model = recipe.imageUrl,
+                contentDescription = recipe.title,
+                modifier = Modifier.fillMaxWidth(),
                 contentScale = ContentScale.Crop,
                 placeholder = painterResource(id = R.drawable.img_placeholder),
                 error = painterResource(id = R.drawable.img_error)
             )
 
-            Column(
-                modifier = Modifier.padding(Dimens.paddingMain)
-            ) {
-                Text(
-                    text = category.title.uppercase(),
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                Spacer(Modifier.height(Dimens.paddingMedium))
-
-                Text(
-                    text = category.description,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 3,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
+            Text(
+                text = recipe.title.uppercase(),
+                modifier = Modifier.padding(Dimens.paddingMain),
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.titleMedium
+            )
         }
     }
 }

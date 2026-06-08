@@ -9,15 +9,17 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import ru.ksurgachev.recipe_app_compose.R
+import ru.ksurgachev.recipesappcompose.Constants
 import ru.ksurgachev.recipesappcompose.data.repository.getCategories
 import ru.ksurgachev.recipesappcompose.ui.categories.model.toUiModel
 import ru.ksurgachev.recipesappcompose.ui.components.ScreenHeader
 import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 
 @Composable
-fun CategoriesScreen(modifier: Modifier = Modifier, onCategoryClick: (Int) -> Unit) {
+fun CategoriesScreen(
+    modifier: Modifier = Modifier,
+    onCategoryClick: (Int, String, String) -> Unit
+) {
     val categoryItems = getCategories().map { it.toUiModel() }
 
     Column(
@@ -25,9 +27,9 @@ fun CategoriesScreen(modifier: Modifier = Modifier, onCategoryClick: (Int) -> Un
             .fillMaxSize()
     ) {
         ScreenHeader(
-            imagePainter = painterResource(id = R.drawable.img_categories),
+            imageUrl = Constants.ASSETS_URI_PREFIX + "bcg_categories.png",
             contentDescription = "Категории",
-            title = "КАТЕГОРИИ"
+            title = "Категории"
         )
 
         LazyVerticalGrid(
@@ -38,9 +40,9 @@ fun CategoriesScreen(modifier: Modifier = Modifier, onCategoryClick: (Int) -> Un
         ) {
             items(categoryItems) { item ->
                 CategoryItem(
-                    item,
-                    onCategoryClick,
-                    Modifier
+                    category = item,
+                    onClick = onCategoryClick,
+                    modifier = Modifier
                 )
             }
         }
