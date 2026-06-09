@@ -39,11 +39,11 @@ fun ScreenHeader(
             shape = RoundedCornerShape(Dimens.buttonCornerRadius)
         ) {
             Text(
-                text = title,
+                text = title.uppercase(),
                 modifier = Modifier
                     .padding(Dimens.paddingMedium),
                 color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.displayLarge
             )
         }
     }

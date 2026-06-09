@@ -1,6 +1,7 @@
 package ru.ksurgachev.recipesappcompose
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,7 +32,12 @@ fun RecipesApp() {
         ) { paddingValues ->
 
             when (currentScreen) {
-                ScreenId.CATEGORIES -> CategoriesScreen(paddingValues)
+                ScreenId.CATEGORIES -> CategoriesScreen(
+                    Modifier.padding(paddingValues),
+                    { categoryId ->
+                        {} //Навигация к категории
+                    }
+                )
                 ScreenId.FAVORITES -> FavoritesScreen(paddingValues)
                 ScreenId.RECIPES -> RecipesScreen(paddingValues)
             }
