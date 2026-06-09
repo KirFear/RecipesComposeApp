@@ -2,6 +2,7 @@ package ru.ksurgachev.recipesappcompose.ui.categories
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -34,11 +35,11 @@ fun CategoriesScreen(
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            modifier = Modifier.padding(Dimens.paddingMain),
+            contentPadding = PaddingValues(Dimens.paddingMain),
             verticalArrangement = Arrangement.spacedBy(Dimens.paddingMain),
             horizontalArrangement = Arrangement.spacedBy(Dimens.paddingMain)
         ) {
-            items(categoryItems) { item ->
+            items(categoryItems, { it.id }) { item ->
                 CategoryItem(
                     category = item,
                     onClick = onCategoryClick,
