@@ -6,7 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ru.ksurgachev.recipesappcompose.Constants
+import androidx.compose.ui.res.painterResource
+import ru.ksurgachev.recipe_app_compose.R
 import ru.ksurgachev.recipesappcompose.ui.components.ScreenHeader
 
 @Composable
@@ -17,9 +18,9 @@ fun FavoritesScreen(paddingValues: PaddingValues) {
             .padding(paddingValues)
     ) {
         ScreenHeader(
-            imageUrl = Constants.ASSETS_URI_PREFIX + "bcg_favorites.png",
+            imagePainter = (painterResource(R.drawable.img_favorites)),
             contentDescription = "Избранное",
-            title = "ИЗБРАННОЕ"
+            title = "Избранное"
         )
     }
 }

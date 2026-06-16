@@ -22,7 +22,6 @@ fun RecipesApp() {
         var currentScreen by remember { mutableStateOf(ScreenId.CATEGORIES) }
         var selectedCategoryId by remember { mutableStateOf<Int?>(null) }
         var selectedCategoryTitle by remember { mutableStateOf("") }
-        var selectedCategoryUrl by remember { mutableStateOf("") }
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -37,10 +36,9 @@ fun RecipesApp() {
             when (currentScreen) {
                 ScreenId.CATEGORIES -> CategoriesScreen(
                     Modifier.padding(paddingValues),
-                    { categoryId, categoryTitle, categoryUrl ->
+                    { categoryId, categoryTitle ->
                         selectedCategoryId = categoryId
                         selectedCategoryTitle = categoryTitle
-                        selectedCategoryUrl = categoryUrl
                         currentScreen = ScreenId.RECIPES
                     }
                 )
@@ -50,7 +48,6 @@ fun RecipesApp() {
                 ScreenId.RECIPES -> RecipesScreen(
                     categoryId = selectedCategoryId ?: error("Category ID is required"),
                     categoryTitle = selectedCategoryTitle,
-                    categoryUrl = selectedCategoryUrl,
                     onRecipeClick = { recipeId ->
                         //TODO: переход на экран деталей рецепта
                     },
