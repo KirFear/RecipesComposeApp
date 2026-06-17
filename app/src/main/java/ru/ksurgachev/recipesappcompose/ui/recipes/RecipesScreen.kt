@@ -26,7 +26,7 @@ fun RecipesScreen(
     categoryId: Int?,
     categoryTitle: String,
     onRecipeClick: (Int) -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     var recipes by remember { mutableStateOf<List<RecipeUiModel>>(emptyList()) }
 
