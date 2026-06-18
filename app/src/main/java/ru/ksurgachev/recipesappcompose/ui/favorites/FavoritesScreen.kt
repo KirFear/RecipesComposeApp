@@ -18,9 +18,9 @@ fun FavoritesScreen(paddingValues: PaddingValues) {
             .padding(paddingValues)
     ) {
         ScreenHeader(
-            imagePainter = painterResource(id = R.drawable.img_favorites),
+            imagePainter = (painterResource(R.drawable.img_favorites)),
             contentDescription = "Избранное",
-            title = "ИЗБРАННОЕ"
+            title = "Избранное"
         )
     }
 }

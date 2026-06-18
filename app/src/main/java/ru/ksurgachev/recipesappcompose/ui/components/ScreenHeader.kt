@@ -29,7 +29,7 @@ fun ScreenHeader(
             painter = imagePainter,
             contentDescription = contentDescription,
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
         )
 
         Surface(

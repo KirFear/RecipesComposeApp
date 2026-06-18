@@ -20,6 +20,8 @@ import ru.ksurgachev.recipesappcompose.ui.theme.RecipesAppComposeTheme
 fun RecipesApp() {
     RecipesAppComposeTheme {
         var currentScreen by remember { mutableStateOf(ScreenId.CATEGORIES) }
+        var selectedCategoryId by remember { mutableStateOf<Int?>(null) }
+        var selectedCategoryTitle by remember { mutableStateOf("") }
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -34,12 +36,23 @@ fun RecipesApp() {
             when (currentScreen) {
                 ScreenId.CATEGORIES -> CategoriesScreen(
                     Modifier.padding(paddingValues),
-                    { categoryId ->
-                        {} //Навигация к категории
+                    { categoryId, categoryTitle ->
+                        selectedCategoryId = categoryId
+                        selectedCategoryTitle = categoryTitle
+                        currentScreen = ScreenId.RECIPES
                     }
                 )
+
                 ScreenId.FAVORITES -> FavoritesScreen(paddingValues)
-                ScreenId.RECIPES -> RecipesScreen(paddingValues)
+
+                ScreenId.RECIPES -> RecipesScreen(
+                    categoryId = selectedCategoryId ?: error("Category ID is required"),
+                    categoryTitle = selectedCategoryTitle,
+                    onRecipeClick = { recipeId ->
+                        //TODO: переход на экран деталей рецепта
+                    },
+                    modifier = Modifier.padding(paddingValues)
+                )
             }
         }
     }
