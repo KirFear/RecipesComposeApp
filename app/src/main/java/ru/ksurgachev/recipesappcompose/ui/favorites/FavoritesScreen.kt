@@ -9,7 +9,7 @@ import ru.ksurgachev.recipe_app_compose.R
 import ru.ksurgachev.recipesappcompose.ui.components.ScreenHeader
 
 @Composable
-fun FavoritesScreen(modifier: Modifier) {
+fun FavoritesScreen(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
