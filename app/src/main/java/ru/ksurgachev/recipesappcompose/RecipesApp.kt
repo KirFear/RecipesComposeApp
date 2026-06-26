@@ -30,6 +30,7 @@ fun RecipesApp() {
                         navController.navigate(Destination.Categories.route) {
                             popUpTo(navController.graph.startDestinationId) { saveState = true }
                             launchSingleTop = true
+                            restoreState = true
                         }
                     },
                     onFavoriteClick = {
@@ -61,7 +62,7 @@ fun RecipesApp() {
                 }
 
                 composable(Destination.Favorites.route) {
-                    FavoritesScreen(paddingValues)
+                    FavoritesScreen(modifier = Modifier.padding(paddingValues))
                 }
 
                 composable(
