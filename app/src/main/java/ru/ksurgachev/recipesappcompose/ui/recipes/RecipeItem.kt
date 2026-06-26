@@ -22,13 +22,13 @@ import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 @Composable
 fun RecipeItem(
     recipe: RecipeUiModel,
-    onRecipeClick: (Int) -> Unit,
+    onRecipeClick: (Int, RecipeUiModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onRecipeClick(recipe.id) },
+            .clickable { onRecipeClick(recipe.id, recipe) },
         shape = RoundedCornerShape(Dimens.buttonCornerRadius),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
