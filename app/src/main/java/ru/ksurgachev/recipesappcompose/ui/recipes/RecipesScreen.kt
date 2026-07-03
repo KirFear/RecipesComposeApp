@@ -25,7 +25,7 @@ import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 fun RecipesScreen(
     categoryId: Int?,
     categoryTitle: String,
-    onRecipeClick: (Int) -> Unit,
+    onRecipeClick: (Int, RecipeUiModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var recipes by remember { mutableStateOf<List<RecipeUiModel>>(emptyList()) }
