@@ -171,3 +171,7 @@ fun getRecipesByCategoryId(categoryId: Int): List<RecipeDto> {
         else -> emptyList()
     }
 }
+
+fun getRecipeById(recipeId: Int): RecipeDto? {
+    return burgerRecipes.find { it.id == recipeId }
+}

@@ -13,7 +13,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
+import coil3.compose.rememberAsyncImagePainter
+import coil3.request.ImageRequest
+import coil3.request.error
+import coil3.request.placeholder
 import ru.ksurgachev.recipe_app_compose.R
 import ru.ksurgachev.recipesappcompose.ui.components.ScreenHeader
 import ru.ksurgachev.recipesappcompose.ui.recipes.model.IngredientUiModel
@@ -23,8 +27,9 @@ import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 @Composable
 fun RecipeDetailsScreen(
     recipe: RecipeUiModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -32,7 +37,13 @@ fun RecipeDetailsScreen(
             .verticalScroll(rememberScrollState())
     ) {
         ScreenHeader(
-            imagePainter = (painterResource(R.drawable.img_recipes_list)),
+            imagePainter = rememberAsyncImagePainter(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(recipe.imageUrl)
+                    .placeholder(R.drawable.img_placeholder)
+                    .error(R.drawable.img_error)
+                    .build()
+            ),
             contentDescription = recipe.title,
             title = recipe.title,
         )
