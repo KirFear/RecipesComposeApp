@@ -11,12 +11,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import ru.ksurgachev.recipesappcompose.data.repository.getRecipeById
 import ru.ksurgachev.recipesappcompose.ui.categories.CategoriesScreen
 import ru.ksurgachev.recipesappcompose.ui.details.RecipeDetailsScreen
 import ru.ksurgachev.recipesappcompose.ui.favorites.FavoritesScreen
 import ru.ksurgachev.recipesappcompose.ui.navigation.BottomNavigation
 import ru.ksurgachev.recipesappcompose.ui.recipes.RecipesScreen
-import ru.ksurgachev.recipesappcompose.ui.recipes.model.RecipeUiModel
+import ru.ksurgachev.recipesappcompose.ui.recipes.model.toUiModel
 import ru.ksurgachev.recipesappcompose.ui.theme.RecipesAppComposeTheme
 
 @Composable
@@ -82,26 +83,25 @@ fun RecipesApp() {
                     RecipesScreen(
                         categoryId = categoryId,
                         categoryTitle = categoryTitle,
-                        onRecipeClick = { recipeId, recipe ->
-                            navController.currentBackStackEntry?.savedStateHandle?.set(
-                                Constants.KEY_RECIPE_OBJECT,
-                                recipe
-                            )
+                        onRecipeClick = { recipeId ->
                             navController.navigate(Destination.Details.createRoute(recipeId))
                         },
                         modifier = Modifier.padding(paddingValues)
                     )
                 }
 
-                composable(Destination.Details.route) {
-                    val recipe = navController.previousBackStackEntry
-                        ?.savedStateHandle?.get<RecipeUiModel>(
-                            Constants.KEY_RECIPE_OBJECT
-                        ) ?: return@composable
+                composable(
+                    route = Destination.Details.route,
+                    arguments = listOf(
+                        navArgument(Constants.KEY_RECIPE_ID) { type = NavType.IntType }
+                    )
+                ) { backStackEntry ->
+                    val recipeId = backStackEntry.arguments?.getInt(Constants.KEY_RECIPE_ID) ?: 0
+                    val recipe = getRecipeById(recipeId)?.toUiModel() ?: return@composable
 
                     RecipeDetailsScreen(
                         recipe = recipe,
-                        modifier = Modifier.padding(paddingValues)
+                        modifier = Modifier.padding(paddingValues),
                     )
                 }
             }
