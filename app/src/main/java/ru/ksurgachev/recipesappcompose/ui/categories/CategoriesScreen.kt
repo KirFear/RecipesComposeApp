@@ -31,7 +31,7 @@ fun CategoriesScreen(
         ScreenHeader(
             imagePainter = (painterResource(R.drawable.img_categories)),
             contentDescription = "Категории",
-            title = "Категории"
+            title = "Категории",
         )
 
         LazyVerticalGrid(

@@ -1,16 +1,19 @@
 package ru.ksurgachev.recipesappcompose
 
+import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import kotlinx.coroutines.delay
+import ru.ksurgachev.recipesappcompose.Constants.DEEP_LINK_SCHEME
 import ru.ksurgachev.recipesappcompose.data.repository.getRecipeById
 import ru.ksurgachev.recipesappcompose.ui.categories.CategoriesScreen
 import ru.ksurgachev.recipesappcompose.ui.details.RecipeDetailsScreen
@@ -19,11 +22,31 @@ import ru.ksurgachev.recipesappcompose.ui.navigation.BottomNavigation
 import ru.ksurgachev.recipesappcompose.ui.recipes.RecipesScreen
 import ru.ksurgachev.recipesappcompose.ui.recipes.model.toUiModel
 import ru.ksurgachev.recipesappcompose.ui.theme.RecipesAppComposeTheme
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-fun RecipesApp() {
+fun RecipesApp(
+    deepLinkIntent: Intent?
+) {
     RecipesAppComposeTheme {
         val navController = rememberNavController()
+
+        LaunchedEffect(deepLinkIntent) {
+            deepLinkIntent?.data?.let { uri ->
+                val recipeId: Int? = when (uri.scheme) {
+                    DEEP_LINK_SCHEME ->
+                        if (uri.host == "recipe") uri.pathSegments[0].toIntOrNull() else null
+                    "https", "http" ->
+                        if (uri.pathSegments[0] == "recipe") uri.pathSegments[1].toIntOrNull() else null
+                    else -> null
+                }
+
+                if (recipeId != null) {
+                    delay(100.milliseconds)
+                    navController.navigate(Destination.Details.createRoute(recipeId))
+                }
+            }
+        }
 
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -97,20 +120,16 @@ fun RecipesApp() {
                     )
                 ) { backStackEntry ->
                     val recipeId = backStackEntry.arguments?.getInt(Constants.KEY_RECIPE_ID) ?: 0
-                    val recipe = getRecipeById(recipeId)?.toUiModel() ?: return@composable
+                    val recipe = getRecipeById(recipeId)?.toUiModel()
 
-                    RecipeDetailsScreen(
-                        recipe = recipe,
-                        modifier = Modifier.padding(paddingValues),
-                    )
+                    recipe?.let {
+                        RecipeDetailsScreen(
+                            recipe = it,
+                            modifier = Modifier.padding(paddingValues),
+                        )
+                    }
                 }
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun RecipesAppPreview() {
-    RecipesApp()
 }
