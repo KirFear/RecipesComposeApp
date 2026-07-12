@@ -1,12 +1,14 @@
 package ru.ksurgachev.recipesappcompose
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -35,9 +37,9 @@ fun RecipesApp(
             deepLinkIntent?.data?.let { uri ->
                 val recipeId: Int? = when (uri.scheme) {
                     DEEP_LINK_SCHEME ->
-                        if (uri.host == "recipe") uri.pathSegments[0].toIntOrNull() else null
+                        if (uri.host == "recipe" && uri.pathSegments.size == 1) uri.pathSegments[0].toIntOrNull() else null
                     "https", "http" ->
-                        if (uri.pathSegments[0] == "recipe") uri.pathSegments[1].toIntOrNull() else null
+                        if (uri.pathSegments[0] == "recipe" && uri.pathSegments.size == 2) uri.pathSegments[1].toIntOrNull() else null
                     else -> null
                 }
 
@@ -121,12 +123,18 @@ fun RecipesApp(
                 ) { backStackEntry ->
                     val recipeId = backStackEntry.arguments?.getInt(Constants.KEY_RECIPE_ID) ?: 0
                     val recipe = getRecipeById(recipeId)?.toUiModel()
+                    val context = LocalContext.current
 
                     recipe?.let {
                         RecipeDetailsScreen(
                             recipe = it,
                             modifier = Modifier.padding(paddingValues),
                         )
+                    } ?: run {
+                        LaunchedEffect(Unit) {
+                            Toast.makeText(context, "Рецепт не найден", Toast.LENGTH_SHORT).show()
+                            navController.popBackStack()
+                        }
                     }
                 }
             }
