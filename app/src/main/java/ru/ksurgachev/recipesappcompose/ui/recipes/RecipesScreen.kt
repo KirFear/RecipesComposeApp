@@ -43,7 +43,7 @@ fun RecipesScreen(
         ScreenHeader(
             imagePainter = (painterResource(R.drawable.img_recipes_list)),
             contentDescription = categoryTitle,
-            title = categoryTitle
+            title = categoryTitle,
         )
         LazyColumn(
             modifier = Modifier.weight(1f),

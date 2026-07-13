@@ -23,12 +23,14 @@ import ru.ksurgachev.recipesappcompose.ui.components.ScreenHeader
 import ru.ksurgachev.recipesappcompose.ui.recipes.model.IngredientUiModel
 import ru.ksurgachev.recipesappcompose.ui.recipes.model.RecipeUiModel
 import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
+import ru.ksurgachev.recipesappcompose.ui.utils.shareRecipe
 
 @Composable
 fun RecipeDetailsScreen(
     recipe: RecipeUiModel,
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -46,6 +48,8 @@ fun RecipeDetailsScreen(
             ),
             contentDescription = recipe.title,
             title = recipe.title,
+            showShareButton = true,
+            onShareClick = { shareRecipe(context, recipe.id, recipe.title) }
         )
 
         Text(

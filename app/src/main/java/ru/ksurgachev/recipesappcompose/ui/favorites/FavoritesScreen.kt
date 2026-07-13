@@ -17,7 +17,7 @@ fun FavoritesScreen(modifier: Modifier = Modifier) {
         ScreenHeader(
             imagePainter = (painterResource(R.drawable.img_favorites)),
             contentDescription = "Избранное",
-            title = "Избранное"
+            title = "Избранное",
         )
     }
 }
