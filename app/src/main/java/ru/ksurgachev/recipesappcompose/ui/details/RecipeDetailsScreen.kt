@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -45,9 +44,11 @@ import kotlin.math.roundToInt
 fun RecipeDetailsScreen(
     recipe: RecipeUiModel,
     modifier: Modifier = Modifier,
+    isFavorite: Boolean,
+    onFavoriteToggle: () -> Unit
 ) {
     val context = LocalContext.current
-    var isFavorite by rememberSaveable { mutableStateOf(false) }
+
     val servingsNumber = 4
     var currentPortions by rememberSaveable { mutableIntStateOf(servingsNumber) }
     val scaledIngredients = remember(recipe.ingredients, currentPortions) {
@@ -80,7 +81,7 @@ fun RecipeDetailsScreen(
             title = recipe.title,
             showFavoriteButton = true,
             isFavorite = isFavorite,
-            onFavoriteToggle = { isFavorite = !isFavorite },
+            onFavoriteToggle = onFavoriteToggle,
             showShareButton = true,
             onShareClick = { shareRecipe(context, recipe.id, recipe.title) }
         )

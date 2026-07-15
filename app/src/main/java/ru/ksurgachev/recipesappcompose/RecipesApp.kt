@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
@@ -128,11 +132,14 @@ fun RecipesApp(
                     val recipeId = backStackEntry.arguments?.getInt(Constants.KEY_RECIPE_ID) ?: 0
                     val recipe = getRecipeById(recipeId)?.toUiModel()
                     val context = LocalContext.current
+                    var isFavorite by rememberSaveable { mutableStateOf(false) }
 
                     recipe?.let {
                         RecipeDetailsScreen(
                             recipe = it,
                             modifier = Modifier.padding(paddingValues),
+                            isFavorite = isFavorite,
+                            onFavoriteToggle = { isFavorite = !isFavorite }
                         )
                     } ?: run {
                         LaunchedEffect(Unit) {
