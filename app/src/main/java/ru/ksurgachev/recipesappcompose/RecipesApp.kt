@@ -1,7 +1,6 @@
 package ru.ksurgachev.recipesappcompose
 
 import android.content.Intent
-import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -9,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,12 +21,14 @@ import kotlinx.coroutines.delay
 import ru.ksurgachev.recipesappcompose.Constants.DEEP_LINK_SCHEME
 import ru.ksurgachev.recipesappcompose.data.repository.getRecipeById
 import ru.ksurgachev.recipesappcompose.ui.categories.CategoriesScreen
+import ru.ksurgachev.recipesappcompose.ui.components.ErrorMessage
 import ru.ksurgachev.recipesappcompose.ui.details.RecipeDetailsScreen
 import ru.ksurgachev.recipesappcompose.ui.favorites.FavoritesScreen
 import ru.ksurgachev.recipesappcompose.ui.navigation.BottomNavigation
 import ru.ksurgachev.recipesappcompose.ui.recipes.RecipesScreen
 import ru.ksurgachev.recipesappcompose.ui.recipes.model.toUiModel
 import ru.ksurgachev.recipesappcompose.ui.theme.RecipesAppComposeTheme
+import ru.ksurgachev.recipesappcompose.util.FavoritePrefsManager
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
@@ -132,20 +133,28 @@ fun RecipesApp(
                     val recipeId = backStackEntry.arguments?.getInt(Constants.KEY_RECIPE_ID) ?: 0
                     val recipe = getRecipeById(recipeId)?.toUiModel()
                     val context = LocalContext.current
-                    var isFavorite by rememberSaveable { mutableStateOf(false) }
+                    val favoritePrefs = remember { FavoritePrefsManager(context) }
+                    var isFavorite by remember(recipeId) {
+                        mutableStateOf(favoritePrefs.isFavorite(recipeId))
+                    }
 
                     recipe?.let {
                         RecipeDetailsScreen(
                             recipe = it,
                             modifier = Modifier.padding(paddingValues),
                             isFavorite = isFavorite,
-                            onFavoriteToggle = { isFavorite = !isFavorite }
+                            onFavoriteToggle = {
+                                if (isFavorite) favoritePrefs.removeFromFavorites(recipeId)
+                                else favoritePrefs.addToFavorites(recipeId)
+                                isFavorite = !isFavorite
+                            }
                         )
                     } ?: run {
-                        LaunchedEffect(Unit) {
-                            Toast.makeText(context, "Рецепт не найден", Toast.LENGTH_SHORT).show()
-                            navController.popBackStack()
-                        }
+                        ErrorMessage(
+                            message = "Рецепт не найден",
+                            onDismiss = { navController.popBackStack() },
+                            modifier = Modifier.padding(paddingValues)
+                        )
                     }
                 }
             }
