@@ -19,10 +19,11 @@ import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 @Composable
 fun ErrorMessage(
     message: String,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(Dimens.paddingMain),
         horizontalAlignment = Alignment.CenterHorizontally,

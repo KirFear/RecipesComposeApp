@@ -9,7 +9,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -29,7 +28,7 @@ import ru.ksurgachev.recipesappcompose.ui.navigation.BottomNavigation
 import ru.ksurgachev.recipesappcompose.ui.recipes.RecipesScreen
 import ru.ksurgachev.recipesappcompose.ui.recipes.model.toUiModel
 import ru.ksurgachev.recipesappcompose.ui.theme.RecipesAppComposeTheme
-import ru.ksurgachev.recipesappcompose.ui.utils.FavoritePrefsManager
+import ru.ksurgachev.recipesappcompose.util.FavoritePrefsManager
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
@@ -135,7 +134,7 @@ fun RecipesApp(
                     val recipe = getRecipeById(recipeId)?.toUiModel()
                     val context = LocalContext.current
                     val favoritePrefs = remember { FavoritePrefsManager(context) }
-                    var isFavorite by rememberSaveable(recipeId) {
+                    var isFavorite by remember(recipeId) {
                         mutableStateOf(favoritePrefs.isFavorite(recipeId))
                     }
 
@@ -151,10 +150,11 @@ fun RecipesApp(
                             }
                         )
                     } ?: run {
-                            ErrorMessage(
-                                message = "Рецепт не найден",
-                                onDismiss = { navController.popBackStack() }
-                            )
+                        ErrorMessage(
+                            message = "Рецепт не найден",
+                            onDismiss = { navController.popBackStack() },
+                            modifier = Modifier.padding(paddingValues)
+                        )
                     }
                 }
             }
