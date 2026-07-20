@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -18,6 +19,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.ksurgachev.recipesappcompose.Constants.DEEP_LINK_SCHEME
 import ru.ksurgachev.recipesappcompose.data.repository.getRecipeById
 import ru.ksurgachev.recipesappcompose.ui.categories.CategoriesScreen
@@ -28,7 +30,7 @@ import ru.ksurgachev.recipesappcompose.ui.navigation.BottomNavigation
 import ru.ksurgachev.recipesappcompose.ui.recipes.RecipesScreen
 import ru.ksurgachev.recipesappcompose.ui.recipes.model.toUiModel
 import ru.ksurgachev.recipesappcompose.ui.theme.RecipesAppComposeTheme
-import ru.ksurgachev.recipesappcompose.util.FavoritePrefsManager
+import ru.ksurgachev.recipesappcompose.util.FavoriteDataStoreManager
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
@@ -133,9 +135,12 @@ fun RecipesApp(
                     val recipeId = backStackEntry.arguments?.getInt(Constants.KEY_RECIPE_ID) ?: 0
                     val recipe = getRecipeById(recipeId)?.toUiModel()
                     val context = LocalContext.current
-                    val favoritePrefs = remember { FavoritePrefsManager(context) }
-                    var isFavorite by remember(recipeId) {
-                        mutableStateOf(favoritePrefs.isFavorite(recipeId))
+                    val favoriteManager = remember { FavoriteDataStoreManager(context) }
+                    val coroutineScope = rememberCoroutineScope()
+                    var isFavorite by remember { mutableStateOf(false) }
+
+                    LaunchedEffect(recipeId) {
+                        isFavorite = favoriteManager.isFavorite(recipeId)
                     }
 
                     recipe?.let {
@@ -144,9 +149,12 @@ fun RecipesApp(
                             modifier = Modifier.padding(paddingValues),
                             isFavorite = isFavorite,
                             onFavoriteToggle = {
-                                if (isFavorite) favoritePrefs.removeFromFavorites(recipeId)
-                                else favoritePrefs.addToFavorites(recipeId)
-                                isFavorite = !isFavorite
+                                coroutineScope.launch {
+                                    if (isFavorite) favoriteManager.removeFavorite(recipeId)
+                                    else favoriteManager.addFavorite(recipeId)
+
+                                    isFavorite = !isFavorite
+                                }
                             }
                         )
                     } ?: run {
