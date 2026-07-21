@@ -1,12 +1,17 @@
 package ru.ksurgachev.recipesappcompose.ui.navigation
 
+
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -23,7 +28,8 @@ import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 @Composable
 fun BottomNavigation(
     onCategoriesClick: () -> Unit,
-    onFavoriteClick: () -> Unit
+    onFavoriteClick: () -> Unit,
+    favoriteCount: Int
 ) {
     Row(
         modifier = Modifier
@@ -34,7 +40,9 @@ fun BottomNavigation(
     ) {
         Button(
             onClick = onCategoriesClick,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .height(Dimens.buttonHeight)
+                .weight(1f),
             shape = RoundedCornerShape(Dimens.buttonCornerRadius),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.tertiary,
@@ -48,7 +56,9 @@ fun BottomNavigation(
         }
         Button(
             onClick = onFavoriteClick,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .height(Dimens.buttonHeight)
+                .weight(1f),
             shape = RoundedCornerShape(Dimens.buttonCornerRadius),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.error,
@@ -64,14 +74,26 @@ fun BottomNavigation(
                     style = MaterialTheme.typography.titleMedium
                 )
 
-                Icon(
-                    painter = painterResource(R.drawable.ic_heart),
-                    contentDescription = "Избранное",
-                    modifier = Modifier
-                        .padding(start = Dimens.paddingMedium)
-                        .requiredSize(Dimens.iconMedium),
-                    tint = MaterialTheme.colorScheme.onError
-                )
+                Box(
+                    modifier = Modifier.requiredSize(Dimens.iconMedium * 1.5f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_heart),
+                        contentDescription = "Избранное",
+                        modifier = Modifier.size(Dimens.iconMedium),
+                        tint = MaterialTheme.colorScheme.onError
+                    )
+
+                    if (favoriteCount > 0) {
+                        Badge(
+                            modifier = Modifier.align(Alignment.TopEnd),
+                            containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+                        ) {
+                            Text(favoriteCount.toString())
+                        }
+                    }
+                }
             }
         }
     }
@@ -80,5 +102,9 @@ fun BottomNavigation(
 @Preview(showBackground = true)
 @Composable
 fun BottomNavigationPreview() {
-    BottomNavigation({}, {})
+    BottomNavigation(
+        {},
+        {},
+        15
+    )
 }
