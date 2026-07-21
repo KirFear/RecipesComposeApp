@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 class FavoriteDataStoreManager(context: Context) {
     val dataStore = context.dataStore
 
-    private fun getFavoriteIdsFlow(): Flow<Set<String>> {
+    fun getFavoriteIdsFlow(): Flow<Set<String>> {
         val preferencesFlow: Flow<Preferences> = dataStore.data
 
         return preferencesFlow.map { preferences ->
