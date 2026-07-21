@@ -48,7 +48,6 @@ fun RecipeDetailsScreen(
     onFavoriteToggle: () -> Unit
 ) {
     val context = LocalContext.current
-
     val servingsNumber = 4
     var currentPortions by rememberSaveable { mutableIntStateOf(servingsNumber) }
     val scaledIngredients = remember(recipe.ingredients, currentPortions) {
@@ -62,6 +61,13 @@ fun RecipeDetailsScreen(
             } ?: ingredient
         }
     }
+    val screenHeaderImage = remember(recipe.imageUrl) {
+        ImageRequest.Builder(context)
+            .data(recipe.imageUrl)
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_error)
+            .build()
+    }
 
     Column(
         modifier = modifier
@@ -71,11 +77,7 @@ fun RecipeDetailsScreen(
     ) {
         ScreenHeader(
             imagePainter = rememberAsyncImagePainter(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(recipe.imageUrl)
-                    .placeholder(R.drawable.img_placeholder)
-                    .error(R.drawable.img_error)
-                    .build()
+                model = screenHeaderImage
             ),
             contentDescription = recipe.title,
             title = recipe.title,
