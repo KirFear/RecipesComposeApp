@@ -40,9 +40,10 @@ fun RecipesApp(
         val navController = rememberNavController()
         val context = LocalContext.current
         val favoriteManager = remember { FavoriteDataStoreManager(context) }
-        val favoriteCount by favoriteManager
-            .getFavoriteCountFlow()
-            .collectAsState(initial = 0)
+        val favoriteCountFlow = remember(favoriteManager) {
+            favoriteManager.getFavoriteCountFlow()
+        }
+        val favoriteCount by favoriteCountFlow.collectAsState(initial = 0)
 
         LaunchedEffect(deepLinkIntent) {
             deepLinkIntent?.data?.let { uri ->
@@ -140,9 +141,10 @@ fun RecipesApp(
                     val recipeId = backStackEntry.arguments?.getInt(Constants.KEY_RECIPE_ID) ?: 0
                     val recipe = getRecipeById(recipeId)?.toUiModel()
                     val coroutineScope = rememberCoroutineScope()
-                    val isFavorite by favoriteManager
-                        .isFavoriteFlow(recipeId)
-                        .collectAsState(initial = false)
+                    val isFavoriteFlow = remember(recipeId) {
+                        favoriteManager.isFavoriteFlow(recipeId)
+                    }
+                    val isFavorite by isFavoriteFlow.collectAsState(initial = false)
 
                     recipe?.let {
                         RecipeDetailsScreen(

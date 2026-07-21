@@ -61,7 +61,7 @@ fun RecipeDetailsScreen(
             } ?: ingredient
         }
     }
-    val screenHeaderImage = remember {
+    val screenHeaderImage = remember(recipe.imageUrl) {
         ImageRequest.Builder(context)
             .data(recipe.imageUrl)
             .placeholder(R.drawable.img_placeholder)
