@@ -10,38 +10,23 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.flow.map
 import ru.ksurgachev.recipe_app_compose.R
-import ru.ksurgachev.recipesappcompose.data.repository.RecipesRepository
 import ru.ksurgachev.recipesappcompose.ui.components.ScreenHeader
 import ru.ksurgachev.recipesappcompose.ui.recipes.RecipeItem
-import ru.ksurgachev.recipesappcompose.ui.recipes.model.toUiModel
+import ru.ksurgachev.recipesappcompose.ui.recipes.model.RecipeUiModel
 import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
-import ru.ksurgachev.recipesappcompose.util.FavoriteDataStoreManager
 
 @Composable
 fun FavoritesScreen(
     modifier: Modifier = Modifier,
-    favoriteManager: FavoriteDataStoreManager,
-    recipesRepository: RecipesRepository,
+    favoriteRecipes: List<RecipeUiModel>,
     onRecipeClick: (Int) -> Unit
 ) {
-    val favoriteRecipes by remember {
-        favoriteManager.getFavoriteIdsFlow()
-            .map { favoriteIds ->
-                val recipeIds = favoriteIds.mapNotNull { it.toIntOrNull() }
-                recipeIds.mapNotNull { id -> recipesRepository.getRecipeById(id)?.toUiModel() }
-            }
-    }.collectAsState(initial = emptyList())
-
     Column(
         modifier = modifier
             .fillMaxSize()
