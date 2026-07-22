@@ -4,6 +4,22 @@ import ru.ksurgachev.recipesappcompose.data.model.CategoryDto
 import ru.ksurgachev.recipesappcompose.data.model.IngredientDto
 import ru.ksurgachev.recipesappcompose.data.model.RecipeDto
 
+object RecipesRepository {
+    fun getCategories(): List<CategoryDto> {
+        return categories
+    }
+
+    fun getRecipesByCategoryId(categoryId: Int): List<RecipeDto> {
+        return when (categoryId) {
+            0 -> burgerRecipes
+            else -> emptyList()
+        }
+    }
+
+    fun getRecipeById(recipeId: Int): RecipeDto? {
+        return burgerRecipes.find { it.id == recipeId }
+    }
+}
 private val cheeseburgerIngredients: List<IngredientDto> = listOf(
     IngredientDto(
         quantity = "0.4",
