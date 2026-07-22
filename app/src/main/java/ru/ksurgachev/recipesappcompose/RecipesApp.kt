@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.ksurgachev.recipesappcompose.Constants.DEEP_LINK_SCHEME
 import ru.ksurgachev.recipesappcompose.data.repository.getRecipeById
@@ -107,7 +108,21 @@ fun RecipesApp(
                 }
 
                 composable(Destination.Favorites.route) {
-                    FavoritesScreen(modifier = Modifier.padding(paddingValues))
+                    val favoriteRecipes by remember {
+                        favoriteManager.getFavoriteIdsFlow()
+                            .map { favoriteIds ->
+                                val recipeIds = favoriteIds.mapNotNull { it.toIntOrNull() }
+                                recipeIds.mapNotNull { id -> getRecipeById(id)?.toUiModel() }
+                            }
+                    }.collectAsState(initial = emptyList())
+
+                    FavoritesScreen(
+                        modifier = Modifier.padding(paddingValues),
+                        favoriteRecipes = favoriteRecipes,
+                        onRecipeClick = { recipeId ->
+                            navController.navigate(Destination.Details.createRoute(recipeId))
+                        }
+                    )
                 }
 
                 composable(
