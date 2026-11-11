@@ -1,4 +1,4 @@
-package ru.ksurgachev.recipesappcompose.ui.categories
+package ru.ksurgachev.recipesappcompose.features.categories.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import ru.ksurgachev.recipe_app_compose.R
 import ru.ksurgachev.recipesappcompose.data.repository.getCategories
-import ru.ksurgachev.recipesappcompose.ui.categories.model.toUiModel
-import ru.ksurgachev.recipesappcompose.ui.components.ScreenHeader
+import ru.ksurgachev.recipesappcompose.features.categories.presentation.model.toUiModel
+import ru.ksurgachev.recipesappcompose.core.ui.ScreenHeader
 import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 
 @Composable

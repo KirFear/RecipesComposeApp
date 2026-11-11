@@ -1,4 +1,4 @@
-package ru.ksurgachev.recipesappcompose.ui.recipes.model
+package ru.ksurgachev.recipesappcompose.features.recipes.presentation.model
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable

@@ -1,4 +1,4 @@
-package ru.ksurgachev.recipesappcompose.ui.details
+package ru.ksurgachev.recipesappcompose.features.details.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,9 +33,9 @@ import coil3.request.ImageRequest
 import coil3.request.error
 import coil3.request.placeholder
 import ru.ksurgachev.recipe_app_compose.R
-import ru.ksurgachev.recipesappcompose.ui.components.ScreenHeader
-import ru.ksurgachev.recipesappcompose.ui.recipes.model.IngredientUiModel
-import ru.ksurgachev.recipesappcompose.ui.recipes.model.RecipeUiModel
+import ru.ksurgachev.recipesappcompose.core.ui.ScreenHeader
+import ru.ksurgachev.recipesappcompose.features.recipes.presentation.model.IngredientUiModel
+import ru.ksurgachev.recipesappcompose.features.recipes.presentation.model.RecipeUiModel
 import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 import ru.ksurgachev.recipesappcompose.ui.utils.shareRecipe
 import kotlin.math.roundToInt

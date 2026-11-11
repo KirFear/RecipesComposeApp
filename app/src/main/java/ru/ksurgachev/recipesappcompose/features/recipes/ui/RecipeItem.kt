@@ -1,4 +1,4 @@
-package ru.ksurgachev.recipesappcompose.ui.recipes
+package ru.ksurgachev.recipesappcompose.features.recipes.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import coil3.compose.AsyncImage
 import ru.ksurgachev.recipe_app_compose.R
-import ru.ksurgachev.recipesappcompose.ui.recipes.model.RecipeUiModel
+import ru.ksurgachev.recipesappcompose.features.recipes.presentation.model.RecipeUiModel
 import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 
 @Composable

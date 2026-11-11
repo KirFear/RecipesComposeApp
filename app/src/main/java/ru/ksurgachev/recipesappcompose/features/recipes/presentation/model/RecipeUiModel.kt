@@ -1,9 +1,9 @@
-package ru.ksurgachev.recipesappcompose.ui.recipes.model
+package ru.ksurgachev.recipesappcompose.features.recipes.presentation.model
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import kotlinx.parcelize.Parcelize
-import ru.ksurgachev.recipesappcompose.Constants
+import ru.ksurgachev.recipesappcompose.core.utils.Constants
 import ru.ksurgachev.recipesappcompose.data.model.RecipeDto
 
 @Immutable

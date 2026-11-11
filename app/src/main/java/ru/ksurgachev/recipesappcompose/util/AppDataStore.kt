@@ -6,7 +6,7 @@ import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import ru.ksurgachev.recipesappcompose.Constants
+import ru.ksurgachev.recipesappcompose.core.utils.Constants
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = Constants.DATA_STORE_NAME,

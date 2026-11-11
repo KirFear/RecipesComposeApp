@@ -1,7 +1,7 @@
-package ru.ksurgachev.recipesappcompose.ui.categories.model
+package ru.ksurgachev.recipesappcompose.features.categories.presentation.model
 
 import androidx.compose.runtime.Immutable
-import ru.ksurgachev.recipesappcompose.Constants
+import ru.ksurgachev.recipesappcompose.core.utils.Constants
 import ru.ksurgachev.recipesappcompose.data.model.CategoryDto
 
 @Immutable
