@@ -1,7 +1,7 @@
 package ru.ksurgachev.recipesappcompose
 
 import android.net.Uri
-import ru.ksurgachev.recipesappcompose.Constants.DEEP_LINK_BASE_URL
+import ru.ksurgachev.recipesappcompose.core.utils.Constants.DEEP_LINK_BASE_URL
 
 sealed class Destination(val route: String) {
     object Categories : Destination("categories")

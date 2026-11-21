@@ -1,4 +1,4 @@
-package ru.ksurgachev.recipesappcompose.ui.favorites
+package ru.ksurgachev.recipesappcompose.features.favorites.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,9 +16,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import ru.ksurgachev.recipe_app_compose.R
-import ru.ksurgachev.recipesappcompose.ui.components.ScreenHeader
-import ru.ksurgachev.recipesappcompose.ui.recipes.RecipeItem
-import ru.ksurgachev.recipesappcompose.ui.recipes.model.RecipeUiModel
+import ru.ksurgachev.recipesappcompose.core.ui.ScreenHeader
+import ru.ksurgachev.recipesappcompose.features.recipes.ui.RecipeItem
+import ru.ksurgachev.recipesappcompose.features.recipes.presentation.model.RecipeUiModel
 import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 
 @Composable

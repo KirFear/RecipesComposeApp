@@ -1,4 +1,4 @@
-package ru.ksurgachev.recipesappcompose
+package ru.ksurgachev.recipesappcompose.core.utils
 
 object Constants {
     const val ASSETS_URI_PREFIX = "file:///android_asset/"

@@ -1,4 +1,4 @@
-package ru.ksurgachev.recipesappcompose.ui.components
+package ru.ksurgachev.recipesappcompose.core.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
