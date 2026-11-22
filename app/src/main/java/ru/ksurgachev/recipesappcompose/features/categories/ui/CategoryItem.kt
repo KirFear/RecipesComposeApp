@@ -25,13 +25,13 @@ import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 @Composable
 fun CategoryItem(
     category: CategoryUiModel,
-    onClick: (Int, String) -> Unit,
+    onClick: (Int, String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick(category.id, category.title) },
+            .clickable { onClick(category.id, category.title, category.imageUrl) },
         shape = RoundedCornerShape(Dimens.buttonCornerRadius),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,

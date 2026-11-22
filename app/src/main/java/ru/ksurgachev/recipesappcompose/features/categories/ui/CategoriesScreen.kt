@@ -7,22 +7,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.ksurgachev.recipe_app_compose.R
-import ru.ksurgachev.recipesappcompose.data.repository.getCategories
-import ru.ksurgachev.recipesappcompose.features.categories.presentation.model.toUiModel
 import ru.ksurgachev.recipesappcompose.core.ui.ScreenHeader
+import ru.ksurgachev.recipesappcompose.features.categories.presentation.CategoriesViewModel
 import ru.ksurgachev.recipesappcompose.ui.theme.Dimens
 
 @Composable
 fun CategoriesScreen(
     modifier: Modifier = Modifier,
-    onCategoryClick: (Int, String) -> Unit
+    onCategoryClick: (Int, String, String) -> Unit,
 ) {
-    val categoryItems = remember { getCategories().map { it.toUiModel() } }
+    val viewModel: CategoriesViewModel = viewModel()
+    val uiState by viewModel.uiState.collectAsState()
 
     Column(
         modifier = modifier
@@ -34,18 +38,35 @@ fun CategoriesScreen(
             title = "Категории",
         )
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(Dimens.paddingMain),
-            verticalArrangement = Arrangement.spacedBy(Dimens.paddingMain),
-            horizontalArrangement = Arrangement.spacedBy(Dimens.paddingMain)
-        ) {
-            items(categoryItems, { it.id }) { item ->
-                CategoryItem(
-                    category = item,
-                    onClick = onCategoryClick,
-                    modifier = Modifier
+        when {
+            uiState.isLoading -> {
+                CircularProgressIndicator(
+                    modifier = Modifier.fillMaxSize()
                 )
+            }
+
+            uiState.error != null -> {
+                Text(
+                    text = uiState.error!!,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+            else -> {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    contentPadding = PaddingValues(Dimens.paddingMain),
+                    verticalArrangement = Arrangement.spacedBy(Dimens.paddingMain),
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.paddingMain)
+                ) {
+                    items(uiState.categories, { it.id }) { item ->
+                        CategoryItem(
+                            category = item,
+                            onClick = onCategoryClick,
+                            modifier = Modifier
+                        )
+                    }
+                }
             }
         }
     }

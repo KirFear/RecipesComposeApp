@@ -98,11 +98,12 @@ fun RecipesApp(
                 composable(Destination.Categories.route) {
                     CategoriesScreen(
                         modifier = Modifier.padding(paddingValues),
-                        onCategoryClick = { categoryId, categoryTitle ->
+                        onCategoryClick = { categoryId, categoryTitle, categoryImageUrl ->
                             navController.navigate(
                                 Destination.Recipes.createRoute(
                                     categoryId,
-                                    categoryTitle
+                                    categoryTitle,
+                                    categoryImageUrl,
                                 )
                             )
                         }
