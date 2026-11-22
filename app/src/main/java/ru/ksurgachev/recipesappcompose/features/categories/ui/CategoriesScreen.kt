@@ -1,9 +1,11 @@
 package ru.ksurgachev.recipesappcompose.features.categories.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -12,8 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ru.ksurgachev.recipe_app_compose.R
 import ru.ksurgachev.recipesappcompose.core.ui.ScreenHeader
@@ -27,6 +31,7 @@ fun CategoriesScreen(
 ) {
     val viewModel: CategoriesViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
+    val state = uiState
 
     Column(
         modifier = modifier
@@ -39,17 +44,26 @@ fun CategoriesScreen(
         )
 
         when {
-            uiState.isLoading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.fillMaxSize()
-                )
+            state.isLoading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
             }
 
-            uiState.error != null -> {
-                Text(
-                    text = uiState.error!!,
-                    modifier = Modifier.fillMaxSize()
-                )
+            state.error != null -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = state.error,
+                        modifier = Modifier.padding(horizontal = Dimens.paddingMain),
+                        textAlign = TextAlign.Center
+                    )
+                }
             }
 
             else -> {
@@ -59,7 +73,7 @@ fun CategoriesScreen(
                     verticalArrangement = Arrangement.spacedBy(Dimens.paddingMain),
                     horizontalArrangement = Arrangement.spacedBy(Dimens.paddingMain)
                 ) {
-                    items(uiState.categories, { it.id }) { item ->
+                    items(state.categories, { it.id }) { item ->
                         CategoryItem(
                             category = item,
                             onClick = onCategoryClick,
