@@ -2,6 +2,7 @@ package ru.ksurgachev.recipesappcompose.features.categories.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +22,7 @@ class CategoriesViewModel: ViewModel() {
 
     private fun loadCategories() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
+            _uiState.update { it.copy(isLoading = true, error = null) }
             try {
                 val categories = getCategories().map { it.toUiModel() }
                 _uiState.update {
@@ -31,12 +32,11 @@ class CategoriesViewModel: ViewModel() {
                         error = null
                     )
                 }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        error = "loadCategories() is failed: " + e.message
-                    )
+                    it.copy(isLoading = false, error = e.message ?: "Unknown error")
                 }
             }
         }
