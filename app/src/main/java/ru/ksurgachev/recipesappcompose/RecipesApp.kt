@@ -132,17 +132,11 @@ fun RecipesApp(
                     route = Destination.Recipes.route,
                     arguments = listOf(
                         navArgument(Constants.KEY_CATEGORY_ID) { type = NavType.IntType },
-                        navArgument(Constants.KEY_CATEGORY_TITLE) { type = NavType.StringType }
+                        navArgument(Constants.KEY_CATEGORY_TITLE) { type = NavType.StringType },
+                        navArgument(Constants.KEY_CATEGORY_IMAGE_URL) { type = NavType.StringType },
                     )
-                ) { backStackEntry ->
-                    val categoryId =
-                        backStackEntry.arguments?.getInt(Constants.KEY_CATEGORY_ID) ?: 0
-                    val categoryTitle =
-                        backStackEntry.arguments?.getString(Constants.KEY_CATEGORY_TITLE) ?: ""
-
+                ) {
                     RecipesScreen(
-                        categoryId = categoryId,
-                        categoryTitle = categoryTitle,
                         onRecipeClick = { recipeId ->
                             navController.navigate(Destination.Details.createRoute(recipeId))
                         },
