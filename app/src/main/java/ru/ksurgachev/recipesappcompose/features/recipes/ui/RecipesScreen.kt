@@ -37,8 +37,8 @@ fun RecipesScreen(
     val viewModel: RecipesViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
     val state = uiState
-    val categoryTitle: String = Uri.decode(viewModel.categoryTitle)
-    val categoryImageUrl: String = Uri.decode(viewModel.categoryImageUrl)
+    val categoryTitle: String = Uri.decode(state.categoryTitle)
+    val categoryImageUrl: String = Uri.decode(state.categoryImageUrl)
 
     val context = LocalContext.current
     val screenHeaderImage = remember(categoryImageUrl, context) {

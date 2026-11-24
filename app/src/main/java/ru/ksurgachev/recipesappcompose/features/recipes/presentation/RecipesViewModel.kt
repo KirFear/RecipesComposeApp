@@ -21,8 +21,8 @@ class RecipesViewModel(
     val uiState: StateFlow<RecipesUiState> = _uiState.asStateFlow()
 
     private val categoryId: Int? = savedStateHandle.get<Int>(Constants.KEY_CATEGORY_ID)
-    val categoryTitle: String = savedStateHandle.get<String>(Constants.KEY_CATEGORY_TITLE) ?: ""
-    val categoryImageUrl: String = savedStateHandle.get<String>(Constants.KEY_CATEGORY_IMAGE_URL) ?: ""
+    private val categoryTitle: String = savedStateHandle.get<String>(Constants.KEY_CATEGORY_TITLE) ?: ""
+    private val categoryImageUrl: String = savedStateHandle.get<String>(Constants.KEY_CATEGORY_IMAGE_URL) ?: ""
 
     init {
         if (categoryId == null) {
@@ -41,6 +41,8 @@ class RecipesViewModel(
                 _uiState.update {
                     it.copy(
                         recipes = recipes,
+                        categoryTitle = categoryTitle,
+                        categoryImageUrl = categoryImageUrl,
                         isLoading = false,
                         error = null
                     )
